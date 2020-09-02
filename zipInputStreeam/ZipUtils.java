@@ -150,4 +150,49 @@
         // 空文件的删除
         file.delete();
     }
+    
+
+//-----------------------------------------------------------------//
+
+    @Data
+    class FileModel {
+        String fileName;			//解压后文件的名字
+        String fileType;			//文件类型
+        Long fileSize;			//文件类型
+        InputStream fileInputstream;		//解压后每个文件的输入流
+    }
+
+    private InputStream convertToInputStream(InputStream stream) throws IOException {
+        ZipInputStream zis = new ZipInputStream(stream);
+        zis.getNextEntry();
+        return zis;
+    }
+
+    public List<FileModel> unzip(MultipartFile file) {
+        List<FileModel> fileModelList = new ArrayList<FileModel>();
+        String zipFileName = null;
+        // 对文件进行解析
+        try {
+            ZipInputStream zipInputStream = new ZipInputStream(file.getInputStream(), Charset.forName("GBK"));
+            BufferedInputStream bs = new BufferedInputStream(zipInputStream);
+            ZipEntry zipEntry;
+            byte[] bytes = null;
+            while ((zipEntry = zipInputStream.getNextEntry()) != null) { // 获取zip包中的每一个zip file entry
+                zipFileName = zipEntry.getName();
+                Assert.notNull(zipFileName, "压缩文件中子文件的名字格式不正确");
+                FileModel fileModel = new FileModel();
+                fileModel.setFileName(zipFileName);
+                fileModel.setFileSize(zipEntry.getSize());
+                bytes = new byte[(int) zipEntry.getSize()];
+                bs.read(bytes, 0, (int) zipEntry.getSize());
+                InputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+                fileModel.setFileInputstream(byteArrayInputStream);
+                fileModelList.add(fileModel);
+            }
+        } catch (Exception e) {
+
+        }
+        return fileModelList;
+    }
+
 
