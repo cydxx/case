@@ -46,6 +46,15 @@ public class InputStreamCase {
         }
         System.out.println(stringBuilder.toString());
 
+        //使用 ByteArrayOutputStream and inputStream.read (JDK)
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        byte[] bytes = new byte[1024];
+        int length;
+        while ((length = fileInputStream.read(bytes)) != -1){
+            result.write(bytes,0,length);
+        }
+        String ss = result.toString();
+        System.out.println(ss);
 
     }
 }
