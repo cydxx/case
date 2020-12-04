@@ -55,6 +55,20 @@ public class InputStreamCase {
         }
         String ss = result.toString();
         System.out.println(ss);
+        
+        //使用 BufferedReader (JDK). 此解决方案将不同的换行符(如\n\r)转换为行。分隔符系统属性(例如，在Windows中为“\r\n”)。
+        //line.separator 行分隔符(换行符) 那么其与‘\n’ 有什么区别呢。系统的环境变量，那么系统就有肯能有差别 一般的为Window 下和Unix下其所表示意义就会不同。
+        //这样写的话，则剔除了平台无关性，写一次代码跑通在Linux上和Window上都能够运行。  
+        String property = System.getProperty("line.separator");
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+        StringBuilder stringBuilder = new StringBuilder();
+        boolean f = false;
+        for (String line;(line = bufferedReader.readLine()) != null;){
+            stringBuilder.append(f? property:"").append(line);
+            f = true;
+        }
+        String sss = stringBuilder.toString();
+        System.out.println(sss);
 
     }
 }
