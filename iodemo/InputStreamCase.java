@@ -69,6 +69,17 @@ public class InputStreamCase {
         }
         String sss = stringBuilder.toString();
         System.out.println(sss);
+        
+        //使用 BufferedInputStream and ByteArrayOutputStream (JDK)
+        BufferedInputStream bf = new BufferedInputStream(fileInputStream);
+        ByteArrayOutputStream bo = new ByteArrayOutputStream();
+        int re = bf.read();
+        while (re != -1){
+            bo.write((byte) re);
+            re = bf.read();
+        }
+        String ssss = bo.toString();
+        System.out.println(ssss);
 
     }
 }
