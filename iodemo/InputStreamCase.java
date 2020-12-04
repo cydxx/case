@@ -81,5 +81,13 @@ public class InputStreamCase {
         String ssss = bo.toString();
         System.out.println(ssss);
 
+        //使用 inputStream.read() and StringBuilder (JDK). 这个解决方案在Unicode方面有问题，例如俄语文本(仅对非Unicode文本有效)
+        int cha;
+        StringBuilder s = new StringBuilder();
+        while ((cha = fileInputStream.read()) != -1){
+            s.append((char)cha);
+        }
+        String s1 = s.toString();
+        System.out.println(s1);
     }
 }
