@@ -35,7 +35,16 @@ public class InputStreamCase {
         String collect1 = new BufferedReader(new InputStreamReader(fileInputStream)).lines().parallel().collect(Collectors.joining("\n"));
         System.out.println(collect1);
         
-        
+        //使用 InputStreamReader and StringBuilder (JDK)
+        final int bufferSize = 1024;
+        final char[] buffer = new char[bufferSize];
+        final StringBuilder stringBuilder = new StringBuilder();
+        Reader in = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
+        int charsRead;
+        while ((charsRead = in.read(buffer,0,buffer.length))>0){
+            stringBuilder.append(buffer,0,charsRead);
+        }
+        System.out.println(stringBuilder.toString());
 
 
     }
