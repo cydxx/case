@@ -31,7 +31,9 @@ public class InputStreamCase {
         String collect = new BufferedReader(new InputStreamReader(fileInputStream)).lines().collect(Collectors.joining("\n"));
         System.out.println(collect);
         
-        //
+        //parallel stream api java8,此解决方案将不同的换行符(如\r\n)转换为\n
+        String collect1 = new BufferedReader(new InputStreamReader(fileInputStream)).lines().parallel().collect(Collectors.joining("\n"));
+        System.out.println(collect1);
         
         
 
